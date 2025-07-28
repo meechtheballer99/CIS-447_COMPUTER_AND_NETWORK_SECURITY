@@ -1,0 +1,67 @@
+Assignment 1 Hints:
+
+I thought I would share some resources that you may find useful for the attack project.
+
+Although you're not required to use GDB for the attack project. I highly recommend that you do. It will greatly assist you in analyzing what's going on accurately.
+
+- In order to debug your program with gdb, you need to compile with the '-g'. For example:
+
+gcc -g -o stack -z execstack -fno-stack-protector stack.c
+
+
+- Resources on gdb commands can be found here:
+
+https://ccrma.stanford.edu/~jos/stkintro/Useful_commands_gdb.html
+
+https://darkdust.net/files/GDB%20Cheat%20Sheet.pdf
+
+
+- I recommend using gdb with the '-tui' option for source level debugging
+gdb -tui <binary> //gives you source level debugging
+
+- Some useful gdb commands:
+
+b <function name> //sets breakpoint on <function name>
+b <line number>   //set breakpoint on <line number>
+
+i b //list breakpoints
+
+dis 1 //disable breakpoint 1
+en 1  //enable breakpoint 1
+d 1   //delete breakpoint 1
+
+r   //run program till breakpoint
+f   //finish function or loop
+n   //single step to next instruction (without going inside functions)
+
+i f //shows information about the current frame. This includes locals and important registers
+
+i r //shows info about registers including ebp, eip, and others
+
+x /n <addr> //Examines n units of memory starting at address <addr>, the default unit is 4 bytes
+
+- For example, this will show the address of buffer and the first 4 bytes:
+x &buffer
+
+- For example this will show the memory contents starting from the address of buffer and including the first 64*4 bytes:
+x /64 &buffer
+
+- You can dump out specific registers such as %ebp and %eip as such
+x $ebp
+x $eip
+
+- You can dissassemble an address location using:
+
+disassemble <address>
+
+This will show you the assembly instructions to get an idea of what a specific memory location is doing
+
+- To analyze the content of a given file, you can use 'od' or 'hexdump' utilities
+
+od -Ax -t x4 -w16 -v <filename>
+
+This will help display the contents of filename in hex in chunks of 4 bytes. This is useful since it will group the output for you in chunks of 32 bits so you don't have to worry about endianness (assuming you run this on the VM provided for this project).
+
+ 
+
+Good luck!
